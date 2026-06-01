@@ -1,11 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="refresh" content="0; url=http://10.1.101.96:8080/" />
     <title>重定向中...</title>
 </head>
 <body>
-    <!-- 可选：显示提示信息 -->
-    <p>正在重定向至目标地址...如果未自动跳转，请<a href="http://10.1.101.96:8080/">点击此处</a></p>
+    <p>正在重定向至目标地址...如果未自动跳转，请<a href="#" id="redirectLink">点击此处</a></p>
+    
+    <script>
+        // 预定义多个目标地址
+        const targets = {
+            'jenkins': 'http://10.1.101.96:8080/',
+            'app-status': 'http://10.1.101.96:18080/',
+            'default': 'http://10.1.101.96:8080/'
+        };
+        
+        // 从 URL 参数获取目标服务器标识
+        const params = new URLSearchParams(window.location.search);
+        const target = params.get('target') || 'default';
+        const targetUrl = targets[target];
+        
+        if (targetUrl) {
+            document.getElementById('redirectLink').href = targetUrl;
+            window.location.href = targetUrl;
+        } else {
+            document.body.innerHTML = '<p>目标地址不存在</p>';
+        }
+    </script>
 </body>
 </html>
